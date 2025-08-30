@@ -25,7 +25,7 @@ document.getElementById('uploadFormMulti').addEventListener('submit', async func
                 'Beige': '#F5F5DC',
                 'Preto': '#000000',
                 'Rosa': '#FFC0CB',
-                'Azul': '#0047AB', // Mapeia o 'Azul' do backend para a cor Cobalto
+                'Azul': '#0047AB', // Mapeado para o código de cor Cobalto
                 'Amarelo': '#FFFF00',
                 'Brilho': '#E6E6FA',
                 'Reativo': '#A9A9A9'
@@ -36,14 +36,11 @@ document.getElementById('uploadFormMulti').addEventListener('submit', async func
 
                 const massaFormatada = item.massa_g.toFixed(5);
                 
-                // Mapeia o nome da cor de exibição para "Cobalto" se for "Azul"
-                const nomeExibicao = item.cor === 'Azul' ? 'Cobalto' : item.cor;
-                
                 // Pega a cor do mapa usando o nome original do backend
                 const corHex = coresMap[item.cor] || '#000000';
                 p.style.color = corHex;
 
-                p.textContent = `${nomeExibicao}: ${massaFormatada} g`;
+                p.textContent = `${item.cor}: ${massaFormatada} g`;
                 resultDiv.appendChild(p);
             });
 

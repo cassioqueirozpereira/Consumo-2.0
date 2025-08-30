@@ -21,7 +21,7 @@ COR_MAP_PT_BR = {
     "Beige": "Bege",
     "Black": "Preto",
     "Pink": "Rosa",
-    "Blue": "Azul",
+    "Blue": "Cobalto",
     "Yellow": "Amarelo",
     "Luster": "Brilho",
     "Reactive": "Reativo"
