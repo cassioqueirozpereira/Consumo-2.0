@@ -44,9 +44,16 @@ def upload_multi_files():
         return jsonify({"error": "Nenhum arquivo enviado"}), 400
 
     arquivos = request.files.getlist('files[]')
-    
+    porcentagem_str = request.form.get('porcentagem')
+
     if not arquivos or arquivos[0].filename == '':
         return jsonify({"error": "Nenhum arquivo válido foi enviado"}), 400
+
+    try:
+        porcentagem = float(porcentagem_str)
+        fator_porcentagem = porcentagem / 100.0
+    except (ValueError, TypeError):
+        return jsonify({"error": "Porcentagem inválida"}), 400
 
     max_dots_por_nivel = {}
     area_total_m2 = 0
@@ -116,7 +123,7 @@ def upload_multi_files():
             volume_cor_ml = volume_cor_pl * 1e-9
             densidade_cor = DENSIDADES_TINTA_G_ML.get(cor_en, 1.0)
             
-            massa_cor_g = volume_cor_ml * densidade_cor
+            massa_cor_g = volume_cor_ml * densidade_cor * fator_porcentagem
             
             cor_pt = COR_MAP_PT_BR.get(cor_en, cor_en)
             
@@ -128,7 +135,7 @@ def upload_multi_files():
     consumo_total_g = sum([item['massa_g'] for item in consumo_por_cor_lista])
 
     return jsonify({
-        "consumo_por_cor_lista": consumo_por_cor_lista, # Nome da variável corrigido aqui
+        "consumo_por_cor_lista": consumo_por_cor_lista,
         "consumo_total_g": round(consumo_total_g, 5)
     }), 200
 
@@ -138,9 +145,16 @@ def upload_file():
         return jsonify({"error": "Nenhum arquivo enviado"}), 400
 
     arquivo = request.files['file']
-    
+    porcentagem_str = request.form.get('porcentagem')
+
     if arquivo.filename == '':
         return jsonify({"error": "Nome do arquivo inválido"}), 400
+
+    try:
+        porcentagem = float(porcentagem_str)
+        fator_porcentagem = porcentagem / 100.0
+    except (ValueError, TypeError):
+        return jsonify({"error": "Porcentagem inválida"}), 400
 
     conteudo_arquivo = arquivo.stream.read().decode("utf-8")
     
@@ -177,7 +191,7 @@ def upload_file():
         if volume_cor_pl > 0:
             volume_cor_ml = volume_cor_pl * 1e-9
             
-            massa_cor_g = volume_cor_ml * densidade_cor
+            massa_cor_g = (volume_cor_ml * densidade_cor) * fator_porcentagem
             
             cor_pt = COR_MAP_PT_BR.get(cor_en, cor_en)
             

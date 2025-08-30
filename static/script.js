@@ -1,66 +1,77 @@
-document.getElementById('uploadFormMulti').addEventListener('submit', async function(event) {
-    event.preventDefault();
+document.addEventListener('DOMContentLoaded', () => {
+    const calcularBtn = document.getElementById('calcularBtn');
+    const porcentagemInput = document.getElementById('porcentagem');
 
-    const form = event.target;
-    const formData = new FormData(form);
+    // Inicialmente, o botão de cálculo fica desativado
+    calcularBtn.disabled = true;
 
-    const resultDiv = document.getElementById('result');
-    resultDiv.innerHTML = '<p class="text-gray-500">Calculando...</p>';
+    // Habilita o botão de cálculo se a porcentagem for válida
+    porcentagemInput.addEventListener('input', () => {
+        const valor = parseFloat(porcentagemInput.value);
+        if (valor >= 0 && valor <= 100) {
+            calcularBtn.disabled = false;
+        } else {
+            calcularBtn.disabled = true;
+        }
+    });
 
-    try {
-        const response = await fetch('/upload-multi', {
-            method: 'POST',
-            body: formData
-        });
+    document.getElementById('uploadFormMulti').addEventListener('submit', async function(event) {
+        event.preventDefault();
 
-        const data = await response.json();
+        const form = event.target;
+        const formData = new FormData(form);
 
-        if (response.ok) {
-            resultDiv.innerHTML = '';
-            
-            // Mapeamento de cores para códigos de cor em CSS
-            const coresMap = {
-                'Ciano': '#00AEEF',
-                'Marrom': '#964B00',
-                'Bege': '#F5F5DC', // Alterado aqui
-                'Preto': '#000000',
-                'Rosa': '#FFC0CB',
-                'Azul': '#0047AB',
-                'Amarelo': '#FFFF00',
-                'Brilho': '#E6E6FA',
-                'Reativo': '#A9A9A9'
-            };
-            
-            data.consumo_por_cor_lista.forEach(item => {
-                const p = document.createElement('p');
+        const resultDiv = document.getElementById('result');
+        resultDiv.innerHTML = '<p class="text-gray-500">Calculando...</p>';
 
-                const massaFormatada = item.massa_g.toFixed(5);
-                
-                // Mapeia o nome da cor de exibição para "Cobalto" se for "Azul"
-                const nomeExibicao = item.cor === 'Azul' ? 'Cobalto' : item.cor;
-                
-                // Pega a cor do mapa usando o nome original do backend
-                const corHex = coresMap[item.cor] || '#000000';
-                
-                // Cria um span para colorir apenas o nome da cor
-                const spanCor = document.createElement('span');
-                spanCor.style.color = corHex;
-                spanCor.textContent = nomeExibicao;
-
-                p.appendChild(spanCor);
-                p.append(`: ${massaFormatada} g`); // Adiciona o resto do texto em preto
-                
-                resultDiv.appendChild(p);
+        try {
+            const response = await fetch('/upload-multi', {
+                method: 'POST',
+                body: formData
             });
 
-            const totalDiv = document.createElement('div');
-            totalDiv.innerHTML = `<h2 class="text-xl font-bold mt-4">Consumo Total: ${data.consumo_total_g} g</h2>`;
-            resultDiv.appendChild(totalDiv);
+            const data = await response.json();
 
-        } else {
-            resultDiv.innerHTML = `<p class="text-red-500">Erro: ${data.error}</p>`;
+            if (response.ok) {
+                resultDiv.innerHTML = '';
+                
+                const coresMap = {
+                    'Ciano': '#00AEEF',
+                    'Marrom': '#964B00',
+                    'Bege': '#F5F5DC',
+                    'Preto': '#000000',
+                    'Rosa': '#FFC0CB',
+                    'Azul': '#0047AB',
+                    'Amarelo': '#FFFF00',
+                    'Brilho': '#E6E6FA',
+                    'Reativo': '#A9A9A9'
+                };
+                
+                data.consumo_por_cor_lista.forEach(item => {
+                    const p = document.createElement('p');
+                    const massaFormatada = item.massa_g.toFixed(5);
+                    const nomeExibicao = item.cor === 'Azul' ? 'Cobalto' : item.cor;
+                    const corHex = coresMap[item.cor] || '#000000';
+                    
+                    const spanCor = document.createElement('span');
+                    spanCor.style.color = corHex;
+                    spanCor.textContent = nomeExibicao;
+
+                    p.appendChild(spanCor);
+                    p.append(`: ${massaFormatada} g`);
+                    
+                    resultDiv.appendChild(p);
+                });
+
+                const totalDiv = document.createElement('div');
+                totalDiv.innerHTML = `<h2 class="text-xl font-bold mt-4">Consumo Total: ${data.consumo_total_g.toFixed(5)} g</h2>`;
+                resultDiv.appendChild(totalDiv);
+
+            } else {
+                resultDiv.innerHTML = `<p class="text-red-500">Erro: ${data.error}</p>`;
+            }
+        } catch (error) {
+            resultDiv.innerHTML = `<p class="text-red-500">Erro na requisição: ${error.message}</p>`;
         }
-    } catch (error) {
-        resultDiv.innerHTML = `<p class="text-red-500">Erro na requisição: ${error.message}</p>`;
-    }
+    });
 });
