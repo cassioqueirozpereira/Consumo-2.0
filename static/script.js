@@ -35,18 +35,19 @@ document.addEventListener('DOMContentLoaded', () => {
         const changeEvent = new Event('change', { bubbles: true });
         fileInput.dispatchEvent(changeEvent);
 
-        // Exibe o nome dos arquivos arrastados para feedback
-        const fileNames = Array.from(files).map(file => file.name).join(', ');
-        const fileInfoDiv = document.createElement('div');
-        fileInfoDiv.className = 'mt-2 text-sm text-gray-500';
-        fileInfoDiv.textContent = `Arquivos selecionados: ${fileNames}`;
-        
+        // Limpa o feedback anterior
         const parentDiv = dropArea.closest('div');
-        if (parentDiv) {
-            const existingInfo = parentDiv.querySelector('.text-sm.text-gray-500');
-            if (existingInfo) {
-                existingInfo.remove();
-            }
+        const existingInfo = parentDiv.querySelector('.text-sm.text-gray-500');
+        if (existingInfo) {
+            existingInfo.remove();
+        }
+
+        // Exibe o nome dos arquivos arrastados para feedback
+        if (files.length > 0) {
+            const fileNames = Array.from(files).map(file => file.name).join(', ');
+            const fileInfoDiv = document.createElement('div');
+            fileInfoDiv.className = 'mt-2 text-sm text-gray-500';
+            fileInfoDiv.textContent = `Arquivos selecionados: ${fileNames}`;
             parentDiv.appendChild(fileInfoDiv);
         }
     });
