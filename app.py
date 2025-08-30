@@ -51,7 +51,6 @@ def upload_multi_files():
     max_dots_por_nivel = {}
     area_total_m2 = 0
     
-    # Lista temporária para manter a ordem original das cores
     cores_na_ordem = []
     
     for arquivo in arquivos:
@@ -74,12 +73,10 @@ def upload_multi_files():
             except (AttributeError, ValueError):
                 return jsonify({"error": f"Não foi possível extrair dimensões ou resolução do arquivo {arquivo.filename}."}), 400
         
-        # Dicionário temporário para somar os pontos de cada cor DENTRO deste arquivo
         sum_dots_por_nivel_no_arquivo = {}
         
         canais_do_arquivo = re.findall(r'\[Channel_(\d+)\].*?Color=(\w+).*?Dots_Level_1=(\d+).*?Dots_Level_2=(\d+).*?Dots_Level_3=(\d+)', conteudo_arquivo, re.DOTALL)
         
-        # Coleta todas as cores, mantendo a ordem
         cores_na_ordem.extend([c[1] for c in canais_do_arquivo])
 
         for _, cor_en, dots_l1, dots_l2, dots_l3 in canais_do_arquivo:
@@ -90,12 +87,10 @@ def upload_multi_files():
             if cor_en not in sum_dots_por_nivel_no_arquivo:
                 sum_dots_por_nivel_no_arquivo[cor_en] = {'l1': 0, 'l2': 0, 'l3': 0}
             
-            # Soma os pontos de cada nível dentro do arquivo
             sum_dots_por_nivel_no_arquivo[cor_en]['l1'] += dots_l1
             sum_dots_por_nivel_no_arquivo[cor_en]['l2'] += dots_l2
             sum_dots_por_nivel_no_arquivo[cor_en]['l3'] += dots_l3
 
-        # Compara os valores somados do arquivo atual com os valores máximos globais
         for cor_en, dots in sum_dots_por_nivel_no_arquivo.items():
             if cor_en not in max_dots_por_nivel:
                 max_dots_por_nivel[cor_en] = {'l1': 0, 'l2': 0, 'l3': 0}
@@ -107,42 +102,39 @@ def upload_multi_files():
             if dots['l3'] > max_dots_por_nivel[cor_en]['l3']:
                 max_dots_por_nivel[cor_en]['l3'] = dots['l3']
 
-
     consumo_por_cor_lista = []
     
-    # CRÍTICO: Cria uma lista de cores únicas, mantendo a ordem original
     cores_unicas_na_ordem = list(dict.fromkeys(cores_na_ordem))
 
     for cor_en in cores_unicas_na_ordem:
         dots = max_dots_por_nivel.get(cor_en)
-        if area_total_m2 > 0 and dots:
+        if dots:
             volume_cor_pl = (dots['l1'] * GOTAS_PL[1]) + \
                             (dots['l2'] * GOTAS_PL[2]) + \
                             (dots['l3'] * GOTAS_PL[3])
             
             volume_cor_ml = volume_cor_pl * 1e-9
             densidade_cor = DENSIDADES_TINTA_G_ML.get(cor_en, 1.0)
+            
+            # Cálculo do valor final em gramas (g)
             massa_cor_g = volume_cor_ml * densidade_cor
-            consumo_gm2 = massa_cor_g / area_total_m2
             
             cor_pt = COR_MAP_PT_BR.get(cor_en, cor_en)
             
             consumo_por_cor_lista.append({
                 "cor": cor_pt,
-                "consumo": round(consumo_gm2, 3)
+                "massa_g": round(massa_cor_g, 5) # Arredonda para 5 casas decimais para mais precisão
             })
             
-    consumo_total_gm2 = sum([item['consumo'] for item in consumo_por_cor_lista])
+    consumo_total_g = sum([item['massa_g'] for item in consumo_por_cor_lista])
 
     return jsonify({
         "consumo_por_cor_lista": consumo_por_cor_lista,
-        "consumo_total_gm2": round(consumo_total_gm2, 3)
+        "consumo_total_g": round(consumo_total_g, 5)
     }), 200
-
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
-    # ... O código desta rota permanece o mesmo ...
     if 'file' not in request.files:
         return jsonify({"error": "Nenhum arquivo enviado"}), 400
 
@@ -185,19 +177,20 @@ def upload_file():
         
         if volume_cor_pl > 0:
             volume_cor_ml = volume_cor_pl * 1e-9
+            
+            # Cálculo do valor final em gramas (g)
             massa_cor_g = volume_cor_ml * densidade_cor
-            consumo_gm2 = massa_cor_g / area_total_m2
             
             cor_pt = COR_MAP_PT_BR.get(cor_en, cor_en)
             
             consumo_por_cor_lista.append({
                 "cor": cor_pt,
-                "consumo": round(consumo_gm2, 3)
+                "massa_g": round(massa_cor_g, 5)
             })
             
-    consumo_total_gm2 = sum([item['consumo'] for item in consumo_por_cor_lista])
+    consumo_total_g = sum([item['massa_g'] for item in consumo_por_cor_lista])
 
     return jsonify({
         "consumo_por_cor_lista": consumo_por_cor_lista,
-        "consumo_total_gm2": round(consumo_total_gm2, 3)
+        "consumo_total_g": round(consumo_total_g, 5)
     }), 200
