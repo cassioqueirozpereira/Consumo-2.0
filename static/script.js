@@ -44,11 +44,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Exibe o nome dos arquivos arrastados para feedback
         if (files.length > 0) {
-            const fileNames = Array.from(files).map(file => file.name).join(', ');
-            const fileInfoDiv = document.createElement('div');
-            fileInfoDiv.className = 'mt-2 text-sm text-gray-500';
-            fileInfoDiv.textContent = `Arquivos selecionados: ${fileNames}`;
-            parentDiv.appendChild(fileInfoDiv);
+            const fileInfoContainer = document.createElement('div');
+            fileInfoContainer.className = 'mt-2 text-sm text-gray-500';
+
+            // Para cada arquivo, cria uma nova linha
+            Array.from(files).forEach(file => {
+                const fileDiv = document.createElement('div');
+                fileDiv.textContent = file.name;
+                fileInfoContainer.appendChild(fileDiv);
+            });
+
+            parentDiv.appendChild(fileInfoContainer);
         }
     });
 
@@ -101,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 const totalDiv = document.createElement('div');
-                totalDiv.innerHTML = `<h2 class="text-xl font-bold mt-4 text-purple-700">Consumo Total: ${data.consumo_total_g.toFixed(3)} g</h2>`;
+                totalDiv.innerHTML = `<h2 class="text-3xl font-bold mt-4 text-purple-700">Consumo Total: ${data.consumo_total_g.toFixed(3)} g</h2>`;
                 resultDiv.appendChild(totalDiv);
 
             } else {
