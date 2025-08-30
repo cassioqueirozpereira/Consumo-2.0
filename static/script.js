@@ -22,7 +22,7 @@ document.getElementById('uploadFormMulti').addEventListener('submit', async func
             const coresMap = {
                 'Ciano': '#00AEEF',
                 'Marrom': '#964B00',
-                'Beige': '#F5F5DC',
+                'Bege': '#F5F5DC', // Alterado aqui
                 'Preto': '#000000',
                 'Rosa': '#FFC0CB',
                 'Azul': '#0047AB',
@@ -41,9 +41,15 @@ document.getElementById('uploadFormMulti').addEventListener('submit', async func
                 
                 // Pega a cor do mapa usando o nome original do backend
                 const corHex = coresMap[item.cor] || '#000000';
-                p.style.color = corHex;
+                
+                // Cria um span para colorir apenas o nome da cor
+                const spanCor = document.createElement('span');
+                spanCor.style.color = corHex;
+                spanCor.textContent = nomeExibicao;
 
-                p.textContent = `${nomeExibicao}: ${massaFormatada} g`;
+                p.appendChild(spanCor);
+                p.append(`: ${massaFormatada} g`); // Adiciona o resto do texto em preto
+                
                 resultDiv.appendChild(p);
             });
 
