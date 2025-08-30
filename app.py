@@ -50,6 +50,8 @@ def upload_multi_files():
 
     max_dots_por_nivel = {}
     area_total_m2 = 0
+    
+    # Lista temporária para manter a ordem original das cores
     cores_na_ordem = []
     
     for arquivo in arquivos:
@@ -77,8 +79,8 @@ def upload_multi_files():
         
         canais_do_arquivo = re.findall(r'\[Channel_(\d+)\].*?Color=(\w+).*?Dots_Level_1=(\d+).*?Dots_Level_2=(\d+).*?Dots_Level_3=(\d+)', conteudo_arquivo, re.DOTALL)
         
-        if not cores_na_ordem:
-            cores_na_ordem = [c[1] for c in canais_do_arquivo]
+        # Coleta todas as cores, mantendo a ordem
+        cores_na_ordem.extend([c[1] for c in canais_do_arquivo])
 
         for _, cor_en, dots_l1, dots_l2, dots_l3 in canais_do_arquivo:
             dots_l1 = int(dots_l1)
@@ -107,7 +109,11 @@ def upload_multi_files():
 
 
     consumo_por_cor_lista = []
-    for cor_en in cores_na_ordem:
+    
+    # CRÍTICO: Cria uma lista de cores únicas, mantendo a ordem original
+    cores_unicas_na_ordem = list(dict.fromkeys(cores_na_ordem))
+
+    for cor_en in cores_unicas_na_ordem:
         dots = max_dots_por_nivel.get(cor_en)
         if area_total_m2 > 0 and dots:
             volume_cor_pl = (dots['l1'] * GOTAS_PL[1]) + \
