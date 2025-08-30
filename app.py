@@ -195,6 +195,3 @@ def upload_file():
         "consumo_por_cor_lista": consumo_por_cor_lista,
         "consumo_total_gm2": round(consumo_total_gm2, 3)
     }), 200
-
-if __name__ == '__main__':
-    app.run(debug=True)
