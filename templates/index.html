@@ -1,28 +1,59 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de Consumo de Tinta</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Calculadora de Consumo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+    </style>
 </head>
-<body>
-    <h1>Calculadora de Consumo de Tinta</h1>
-    <p>Faça o upload do seu arquivo PrintJob.dat para calcular o consumo em g/m².</p>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
+        <h1 class="text-3xl font-bold mb-6 text-center text-gray-800">Calculadora de Consumo</h1>
+        <p class="mb-6 text-center text-gray-600">Envie um ou mais arquivos de ponto para calcular o consumo de tinta.</p>
+
+        <form id="uploadFormMulti" enctype="multipart/form-data" class="space-y-4">
+            <div>
+                <label for="files" class="block text-sm font-medium text-gray-700">Selecione um ou mais arquivos:</label>
+                <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md cursor-pointer">
+                    <input id="files" name="files[]" type="file" multiple class="sr-only" required>
+                    <div class="space-y-1 text-center">
+                        <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                            <path d="M28 8H12a2 2 0 00-2 2v20m30-14v12m-8-2h8m2 0H14M4 14h24v24H4z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg>
+                        <div class="flex text-sm text-gray-600">
+                            <label for="files" class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
+                                <span>Clique para carregar</span>
+                            </label>
+                            <p class="pl-1">ou arraste e solte</p>
+                        </div>
+                        <p class="text-xs text-gray-500">
+                            TXT, CSV, etc.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Calcular
+            </button>
+        </form>
+
+        <div id="result" class="mt-6 text-gray-700">
+            <!-- Os resultados serão exibidos aqui -->
+        </div>
+    </div>
     
-    <div class="upload-container">
-        <input type="file" id="arquivoInput" accept=".dat" multiple>
-        <button id="calcularBtn">Calcular</button>
-    </div>
-
-    <div id="loading" class="hidden">Carregando...</div>
-
-    <div id="resultadoContainer" class="hidden">
-        <h2>Resultados do Consumo</h2>
-        <div id="resultadosPorCor"></div>
-        <p>Consumo Total: <span id="consumoTotal"></span> g/m²</p>
-    </div>
-
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <!-- Agora a tag do seu script está no local correto para que o botão funcione. -->
+    <script src="/static/script.js"></script>
 </body>
 </html>
