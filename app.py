@@ -21,7 +21,7 @@ COR_MAP_PT_BR = {
     "Beige": "Bege",
     "Black": "Preto",
     "Pink": "Rosa",
-    "Blue": "Cobalto",
+    "Blue": "Azul",
     "Yellow": "Amarelo",
     "Luster": "Brilho",
     "Reactive": "Reativo"
@@ -116,20 +116,19 @@ def upload_multi_files():
             volume_cor_ml = volume_cor_pl * 1e-9
             densidade_cor = DENSIDADES_TINTA_G_ML.get(cor_en, 1.0)
             
-            # Cálculo do valor final em gramas (g)
             massa_cor_g = volume_cor_ml * densidade_cor
             
             cor_pt = COR_MAP_PT_BR.get(cor_en, cor_en)
             
             consumo_por_cor_lista.append({
                 "cor": cor_pt,
-                "massa_g": round(massa_cor_g, 5) # Arredonda para 5 casas decimais para mais precisão
+                "massa_g": round(massa_cor_g, 5)
             })
             
     consumo_total_g = sum([item['massa_g'] for item in consumo_por_cor_lista])
 
     return jsonify({
-        "consumo_por_cor_lista": consumo_por_cor_lista,
+        "consumo_por_cor_lista": consumo_por_cor_lista, # Nome da variável corrigido aqui
         "consumo_total_g": round(consumo_total_g, 5)
     }), 200
 
@@ -178,7 +177,6 @@ def upload_file():
         if volume_cor_pl > 0:
             volume_cor_ml = volume_cor_pl * 1e-9
             
-            # Cálculo do valor final em gramas (g)
             massa_cor_g = volume_cor_ml * densidade_cor
             
             cor_pt = COR_MAP_PT_BR.get(cor_en, cor_en)
