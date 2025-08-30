@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     const calcularBtn = document.getElementById('calcularBtn');
     const porcentagemInput = document.getElementById('porcentagem');
+    const dropArea = document.querySelector('.border-dashed');
+    const fileInput = document.getElementById('files');
 
     porcentagemInput.addEventListener('input', () => {
         const valor = parseFloat(porcentagemInput.value);
@@ -8,6 +10,44 @@ document.addEventListener('DOMContentLoaded', () => {
             calcularBtn.disabled = false;
         } else {
             calcularBtn.disabled = true;
+        }
+    });
+
+    // Adiciona classes de feedback visual ao arrastar o arquivo
+    dropArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropArea.classList.add('border-indigo-500', 'bg-indigo-50');
+    });
+
+    dropArea.addEventListener('dragleave', () => {
+        dropArea.classList.remove('border-indigo-500', 'bg-indigo-50');
+    });
+
+    // Lida com o arquivo que foi solto
+    dropArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropArea.classList.remove('border-indigo-500', 'bg-indigo-50');
+        
+        const files = e.dataTransfer.files;
+        fileInput.files = files; // Atribui os arquivos soltos ao campo de input
+        
+        // Simula o evento 'change' para o campo de input para que o formulário os reconheça
+        const changeEvent = new Event('change', { bubbles: true });
+        fileInput.dispatchEvent(changeEvent);
+
+        // Exibe o nome dos arquivos arrastados para feedback
+        const fileNames = Array.from(files).map(file => file.name).join(', ');
+        const fileInfoDiv = document.createElement('div');
+        fileInfoDiv.className = 'mt-2 text-sm text-gray-500';
+        fileInfoDiv.textContent = `Arquivos selecionados: ${fileNames}`;
+        
+        const parentDiv = dropArea.closest('div');
+        if (parentDiv) {
+            const existingInfo = parentDiv.querySelector('.text-sm.text-gray-500');
+            if (existingInfo) {
+                existingInfo.remove();
+            }
+            parentDiv.appendChild(fileInfoDiv);
         }
     });
 
@@ -34,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const coresMap = {
                     'Ciano': '#00AEEF',
                     'Marrom': '#964B00',
-                    'Bege': '#F5F5DC',
+                    'Beige': '#F5F5DC',
                     'Preto': '#000000',
                     'Rosa': '#FFC0CB',
                     'Azul': '#0047AB',
