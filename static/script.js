@@ -75,18 +75,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 const coresMap = {
                     'Ciano': '#00AEEF',
                     'Marrom': '#964B00',
-                    'Beige': '#F5F5DC',
+                    'Beige': '#FFA500',
                     'Preto': '#000000',
                     'Rosa': '#FFC0CB',
                     'Azul': '#0047AB',
                     'Amarelo': '#FFFF00',
-                    'Brilho': '#E6E6FA',
+                    'Brilho': '#B57EDC',
                     'Reativo': '#A9A9A9'
                 };
                 
                 data.consumo_por_cor_lista.forEach(item => {
                     const p = document.createElement('p');
-                    const massaFormatada = item.massa_g.toFixed(5);
+                    const massaFormatada = item.massa_g.toFixed(3);
                     const nomeExibicao = item.cor === 'Azul' ? 'Cobalto' : item.cor;
                     const corHex = coresMap[item.cor] || '#000000';
                     
@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 const totalDiv = document.createElement('div');
-                totalDiv.innerHTML = `<h2 class="text-xl font-bold mt-4">Consumo Total: ${data.consumo_total_g.toFixed(5)} g</h2>`;
+                totalDiv.innerHTML = `<h2 class="text-xl font-bold mt-4 text-purple-700">Consumo Total: ${data.consumo_total_g.toFixed(3)} g</h2>`;
                 resultDiv.appendChild(totalDiv);
 
             } else {
