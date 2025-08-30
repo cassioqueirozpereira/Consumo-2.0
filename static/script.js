@@ -2,10 +2,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const calcularBtn = document.getElementById('calcularBtn');
     const porcentagemInput = document.getElementById('porcentagem');
 
-    // Inicialmente, o botão de cálculo fica desativado
-    calcularBtn.disabled = true;
-
-    // Habilita o botão de cálculo se a porcentagem for válida
     porcentagemInput.addEventListener('input', () => {
         const valor = parseFloat(porcentagemInput.value);
         if (valor >= 0 && valor <= 100) {

@@ -123,7 +123,7 @@ def upload_multi_files():
             volume_cor_ml = volume_cor_pl * 1e-9
             densidade_cor = DENSIDADES_TINTA_G_ML.get(cor_en, 1.0)
             
-            massa_cor_g = volume_cor_ml * densidade_cor * fator_porcentagem
+            massa_cor_g = (volume_cor_ml * densidade_cor) * (1 + fator_porcentagem)
             
             cor_pt = COR_MAP_PT_BR.get(cor_en, cor_en)
             
@@ -191,7 +191,7 @@ def upload_file():
         if volume_cor_pl > 0:
             volume_cor_ml = volume_cor_pl * 1e-9
             
-            massa_cor_g = (volume_cor_ml * densidade_cor) * fator_porcentagem
+            massa_cor_g = (volume_cor_ml * densidade_cor) * (1 + fator_porcentagem)
             
             cor_pt = COR_MAP_PT_BR.get(cor_en, cor_en)
             
