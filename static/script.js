@@ -75,9 +75,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 const coresMap = {
                     'Ciano': '#00AEEF',
                     'Marrom': '#964B00',
-                    'Beige': '#FFA500',
+                    'Bege': '#C2B280', // Cor corrigida para um tom de areia mais visível
                     'Preto': '#000000',
-                    'Rosa': '#FFC0CB',
+                    'Rosa': '#FF69B4', // Cor corrigida para um tom mais forte
                     'Azul': '#0047AB',
                     'Amarelo': '#FFFF00',
                     'Brilho': '#B57EDC',
