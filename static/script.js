@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
             data.consumo_por_cor_lista.forEach(item => {
                 const p = document.createElement('p');
                 const consumoFormatado = item.consumo.toFixed(3);
-                p.textContent = `Consumo ${item.cor}: ${consumoFormatado} g/m²`;
+                p.textContent = `${item.cor}: ${consumoFormatado} g/m²`;
                 resultadosPorCorDiv.appendChild(p);
             });
             
