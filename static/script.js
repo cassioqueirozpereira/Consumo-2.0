@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const mensagem = `${totalArquivos} arquivo${totalArquivos > 1 ? 's' : ''}`;
             const countDiv = document.createElement('div');
             countDiv.textContent = mensagem;
-            countDiv.className = 'mt-2 text-sm text-gray-500';
+            countDiv.className = 'mt-2 text-base text-gray-500';
             fileListContainer.appendChild(countDiv);
             calcularBtn.disabled = false;
         } else {
@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 const totalDiv = document.createElement('div');
-                totalDiv.innerHTML = `<h2 class="text-3xl font-bold mt-4 text-purple-700">Consumo Total: ${data.consumo_total_g.toFixed(3)} g</h2>`;
+                totalDiv.innerHTML = `<h2 class="text-xl font-bold mt-4 text-purple-700">Consumo Total: ${data.consumo_total_g.toFixed(3)} g</h2>`;
                 resultDiv.appendChild(totalDiv);
             } else {
                 resultDiv.innerHTML = `<p class="text-red-500">Erro: ${data.error}</p>`;
