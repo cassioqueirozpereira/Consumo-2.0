@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const mensagem = `${totalArquivos} arquivo${totalArquivos > 1 ? 's' : ''}`;
             const countDiv = document.createElement('div');
             countDiv.textContent = mensagem;
-            countDiv.className = 'mt-2 text-sm text-gray-500';
+            countDiv.className = 'mt-2 text-xl text-gray-500';
             fileListContainer.appendChild(countDiv);
         }
     };
