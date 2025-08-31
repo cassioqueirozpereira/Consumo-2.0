@@ -19,41 +19,46 @@
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
-        <h1 class="text-4xl font-bold mb-6 text-center">Consumo de Tinta</h1>
+    <h1 class="text-4xl font-bold mb-6 text-center">Consumo de Tinta</h1>
 
-        <form id="uploadFormMulti" enctype="multipart/form-data" class="space-y-4">
-            <div>
-                <label for="files" class="block text-base text-gray-700">Selecione um ou mais arquivos:</label>
-                <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md cursor-pointer">
-                    <input id="files" name="files[]" type="file" multiple class="sr-only" required>
-                    <div class="space-y-1 text-center">
-                        <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
-                            <path d="M28 8H12a2 2 0 00-2 2v20m30-14v12m-8-2h8m2 0H14M4 14h24v24H4z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                        </svg>
-                        <div class="flex text-sm text-gray-600">
-                            <label for="files" class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
-                                <span class="text-xl">Clique para carregar</span>
-                            </label>
-                            <p class="pl-1 text-base">ou arraste e solte</p>
-                        </div>
-                        <p class="text-xs text-gray-500">
-                            TXT, CSV, etc.
-                        </p>
+    <form id="uploadFormMulti" enctype="multipart/form-data" class="space-y-4">
+        <div>
+            <label for="files" class="block text-base text-gray-700">Selecione um ou mais arquivos:</label>
+            
+            <div class="mt-1 flex items-center justify-between px-6 py-5 border-2 border-gray-300 border-dashed rounded-md cursor-pointer">
+                <input id="files" name="files[]" type="file" multiple class="sr-only" required>
+
+                <div class="space-y-1 text-center flex flex-col items-center">
+                    <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                        <path d="M28 8H12a2 2 0 00-2 2v20m30-14v12m-8-2h8m2 0H14M4 14h24v24H4z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                    <div class="flex flex-col items-center">
+                        <label for="files" class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
+                            <span class="text-xl">Clique para carregar</span>
+                        </label>
+                        <p class="text-base mt-1">ou arraste e solte</p>
                     </div>
+                    <p class="text-xs text-gray-500 mt-1">
+                        TXT, CSV, etc.
+                    </p>
                 </div>
-            </div>
-            <div>
-                <label id="porcentagem" for="porcentagem" class="block text-base font-medium text-gray-700">Porcentagem para perdas:</label>
-                <input type="number" id="porcentagem" name="porcentagem" value="30" min="0" max="100" step="5" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2">
-            </div>
-            <button type="submit" id="calcularBtn" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                Calcular
-            </button>
-        </form>
 
-        <div id="result" class="mt-6 text-gray-800 text-xl">
+                <div id="fileListContainer" class="text-sm text-gray-500 flex flex-col gap-1"></div>
             </div>
+        </div>
+
+        <div>
+            <label id="porcentagem" for="porcentagem" class="block text-base font-medium text-gray-700">Porcentagem para perdas:</label>
+            <input type="number" id="porcentagem" name="porcentagem" value="30" min="0" max="100" step="5" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2">
+        </div>
+        <button type="submit" id="calcularBtn" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
+            Calcular
+        </button>
+    </form>
+
+    <div id="result" class="mt-6 text-gray-800 text-xl">
     </div>
+</div>
     
     <script src="/static/script.js"></script>
 </body>
