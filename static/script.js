@@ -4,38 +4,57 @@ document.addEventListener('DOMContentLoaded', () => {
     const dropArea = document.querySelector('.border-dashed');
     const fileInput = document.getElementById('files');
     const fileListContainer = document.getElementById('fileListContainer');
-    
-    // Use um Map para armazenar os arquivos, usando o nome do arquivo como chave
+    const uploadFormMulti = document.getElementById('uploadFormMulti');
+
+    const incrementBtn = document.getElementById('incrementBtn');
+    const decrementBtn = document.getElementById('decrementBtn');
+
     const arquivosSelecionados = new Map();
 
-    // Função para atualizar a contagem de arquivos e exibi-la
     const atualizarContagemArquivos = () => {
         const totalArquivos = arquivosSelecionados.size;
-        fileListContainer.innerHTML = ''; // Limpa o conteúdo anterior
+        fileListContainer.innerHTML = '';
         if (totalArquivos > 0) {
             const mensagem = `${totalArquivos} arquivo${totalArquivos > 1 ? 's' : ''}`;
             const countDiv = document.createElement('div');
             countDiv.textContent = mensagem;
-            countDiv.className = 'mt-2 text-base text-gray-500';
+            countDiv.className = 'mt-2 text-sm text-gray-500';
             fileListContainer.appendChild(countDiv);
+            calcularBtn.disabled = false;
+        } else {
+            calcularBtn.disabled = true;
         }
     };
 
-    // Função para adicionar arquivos a partir de uma lista, verificando duplicatas
     const adicionarArquivos = (fileList) => {
         for (const file of fileList) {
-            // Adiciona o arquivo ao Map, usando seu nome como a chave.
-            // Se o nome já existir, ele será substituído.
             arquivosSelecionados.set(file.name, file);
         }
         atualizarContagemArquivos();
     };
 
     porcentagemInput.addEventListener('input', () => {
-        calcularBtn.disabled = !(parseFloat(porcentagemInput.value) >= 0 && parseFloat(porcentagemInput.value) <= 100);
+        const valorNumerico = parseFloat(porcentagemInput.value.replace('%', ''));
+        calcularBtn.disabled = !(valorNumerico >= 0 && valorNumerico <= 100);
+        if (arquivosSelecionados.size === 0) {
+            calcularBtn.disabled = true;
+        }
     });
 
-    // Eventos de Drag and Drop
+    incrementBtn.addEventListener('click', () => {
+        let valorNumerico = parseFloat(porcentagemInput.value.replace('%', ''));
+        if (isNaN(valorNumerico)) valorNumerico = 0;
+        valorNumerico = Math.min(100, valorNumerico + 5);
+        porcentagemInput.value = `${valorNumerico}%`;
+    });
+
+    decrementBtn.addEventListener('click', () => {
+        let valorNumerico = parseFloat(porcentagemInput.value.replace('%', ''));
+        if (isNaN(valorNumerico)) valorNumerico = 0;
+        valorNumerico = Math.max(0, valorNumerico - 5);
+        porcentagemInput.value = `${valorNumerico}%`;
+    });
+
     dropArea.addEventListener('dragover', (e) => {
         e.preventDefault();
         dropArea.classList.add('border-indigo-500', 'bg-indigo-50');
@@ -51,21 +70,27 @@ document.addEventListener('DOMContentLoaded', () => {
         adicionarArquivos(e.dataTransfer.files);
     });
 
-    // Evento de seleção por clique
     fileInput.addEventListener('change', (e) => {
         adicionarArquivos(e.target.files);
         fileInput.value = '';
     });
 
-    document.getElementById('uploadFormMulti').addEventListener('submit', async (event) => {
+    uploadFormMulti.addEventListener('submit', async (event) => {
         event.preventDefault();
+
+        if (arquivosSelecionados.size === 0) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<p class="text-red-500">Por favor, selecione pelo menos um arquivo.</p>';
+            return;
+        }
+
         const formData = new FormData();
 
-        // Converte os valores do Map para um array para enviar
         const arquivosParaEnviar = Array.from(arquivosSelecionados.values());
         arquivosParaEnviar.forEach(file => formData.append('files[]', file));
         
-        formData.append('porcentagem', porcentagemInput.value);
+        const porcentagemValue = porcentagemInput.value.replace('%', '');
+        formData.append('porcentagem', porcentagemValue);
 
         const resultDiv = document.getElementById('result');
         resultDiv.innerHTML = '<p class="text-gray-500">Calculando...</p>';
@@ -104,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 const totalDiv = document.createElement('div');
-                totalDiv.innerHTML = `<h2 class="text-2xl font-bold mt-4 text-purple-700">Consumo Total: ${data.consumo_total_g.toFixed(3)} g</h2>`;
+                totalDiv.innerHTML = `<h2 class="text-3xl font-bold mt-4 text-purple-700">Consumo Total: ${data.consumo_total_g.toFixed(3)} g</h2>`;
                 resultDiv.appendChild(totalDiv);
             } else {
                 resultDiv.innerHTML = `<p class="text-red-500">Erro: ${data.error}</p>`;
