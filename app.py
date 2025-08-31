@@ -40,14 +40,11 @@ def home():
 
 @app.route('/upload-multi', methods=['POST'])
 def upload_multi_files():
-    if 'files[]' not in request.files:
+    if 'files[]' not in request.files or not request.files.getlist('files[]'):
         return jsonify({"error": "Nenhum arquivo enviado"}), 400
 
     arquivos = request.files.getlist('files[]')
     porcentagem_str = request.form.get('porcentagem')
-
-    if not arquivos or arquivos[0].filename == '':
-        return jsonify({"error": "Nenhum arquivo válido foi enviado"}), 400
 
     try:
         porcentagem = float(porcentagem_str)
