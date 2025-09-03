@@ -8,8 +8,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const incrementBtn = document.getElementById('incrementBtn');
     const decrementBtn = document.getElementById('decrementBtn');
-
+    
+    // Usando um Map para garantir que todos os arquivos sejam armazenados
+    // mesmo que tenham o mesmo nome. O contador garante a unicidade da chave.
     const arquivosSelecionados = new Map();
+    let fileCounter = 0;
+
+    // Função central para atualizar o estado do botão de cálculo
+    const atualizarEstadoBotao = () => {
+        const porcentagem = parseFloat(porcentagemInput.value.replace('%', ''));
+        const hasFiles = arquivosSelecionados.size > 0;
+        const porcentagemValida = !isNaN(porcentagem) && porcentagem >= 0 && porcentagem <= 100;
+        calcularBtn.disabled = !(hasFiles && porcentagemValida);
+    };
 
     const atualizarContagemArquivos = () => {
         const totalArquivos = arquivosSelecionados.size;
@@ -20,32 +31,26 @@ document.addEventListener('DOMContentLoaded', () => {
             countDiv.textContent = mensagem;
             countDiv.className = 'mt-2 text-base text-gray-500';
             fileListContainer.appendChild(countDiv);
-            calcularBtn.disabled = false;
-        } else {
-            calcularBtn.disabled = true;
         }
+        atualizarEstadoBotao();
     };
 
     const adicionarArquivos = (fileList) => {
         for (const file of fileList) {
-            arquivosSelecionados.set(file.name, file);
+            const uniqueKey = `${file.name}-${fileCounter++}`;
+            arquivosSelecionados.set(uniqueKey, file);
         }
         atualizarContagemArquivos();
     };
 
-    porcentagemInput.addEventListener('input', () => {
-        const valorNumerico = parseFloat(porcentagemInput.value.replace('%', ''));
-        calcularBtn.disabled = !(valorNumerico >= 0 && valorNumerico <= 100);
-        if (arquivosSelecionados.size === 0) {
-            calcularBtn.disabled = true;
-        }
-    });
+    porcentagemInput.addEventListener('input', atualizarEstadoBotao);
 
     incrementBtn.addEventListener('click', () => {
         let valorNumerico = parseFloat(porcentagemInput.value.replace('%', ''));
         if (isNaN(valorNumerico)) valorNumerico = 0;
         valorNumerico = Math.min(100, valorNumerico + 5);
         porcentagemInput.value = `${valorNumerico}%`;
+        atualizarEstadoBotao();
     });
 
     decrementBtn.addEventListener('click', () => {
@@ -53,6 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isNaN(valorNumerico)) valorNumerico = 0;
         valorNumerico = Math.max(0, valorNumerico - 5);
         porcentagemInput.value = `${valorNumerico}%`;
+        atualizarEstadoBotao();
     });
 
     dropArea.addEventListener('dragover', (e) => {
@@ -85,7 +91,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const formData = new FormData();
-
         const arquivosParaEnviar = Array.from(arquivosSelecionados.values());
         arquivosParaEnviar.forEach(file => formData.append('files[]', file));
         
