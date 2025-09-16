@@ -32,7 +32,6 @@ GOTAS_PL = {
     2: 24,
     3: 36
 }
-INCH_PARA_M = 0.0254
 
 @app.route('/')
 def home():
