@@ -52,7 +52,6 @@ def upload_multi_files():
         return jsonify({"error": "Porcentagem inválida"}), 400
 
     max_dots_por_nivel = {}
-    area_total_m2 = 0
     
     cores_na_ordem = []
     
