@@ -63,19 +63,19 @@ def upload_multi_files():
         except UnicodeDecodeError:
             return jsonify({"error": f"Erro ao ler o arquivo {arquivo.filename}. Verifique se é um arquivo de texto válido."}), 400
         
-        if area_total_m2 == 0:
-            try:
-                res_h = float(re.search(r'ResH=(\d+\.\d+)', conteudo_arquivo).group(1))
-                res_v = float(re.search(r'ResV=(\d+\.\d+)', conteudo_arquivo).group(1))
-                dim_h = int(re.search(r'DimH=(\d+)', conteudo_arquivo).group(1))
-                dim_v = int(re.search(r'DimV=(\d+)', conteudo_arquivo).group(1))
-                area_h_in = dim_h / res_h
-                area_v_in = dim_v / res_v
-                area_total_m2 = (area_h_in * area_v_in) * (INCH_PARA_M ** 2)
-                if area_total_m2 == 0:
-                    return jsonify({"error": "Área de impressão é zero, cálculo impossível."}), 400
-            except (AttributeError, ValueError):
-                return jsonify({"error": f"Não foi possível extrair dimensões ou resolução do arquivo {arquivo.filename}."}), 400
+        # if area_total_m2 == 0:
+        #     try:
+        #         res_h = float(re.search(r'ResH=(\d+\.\d+)', conteudo_arquivo).group(1))
+        #         res_v = float(re.search(r'ResV=(\d+\.\d+)', conteudo_arquivo).group(1))
+        #         dim_h = int(re.search(r'DimH=(\d+)', conteudo_arquivo).group(1))
+        #         dim_v = int(re.search(r'DimV=(\d+)', conteudo_arquivo).group(1))
+        #         area_h_in = dim_h / res_h
+        #         area_v_in = dim_v / res_v
+        #         area_total_m2 = (area_h_in * area_v_in) * (INCH_PARA_M ** 2)
+        #         if area_total_m2 == 0:
+        #             return jsonify({"error": "Área de impressão é zero, cálculo impossível."}), 400
+        #     except (AttributeError, ValueError):
+        #         return jsonify({"error": f"Não foi possível extrair dimensões ou resolução do arquivo {arquivo.filename}."}), 400
         
         sum_dots_por_nivel_no_arquivo = {}
         
@@ -155,20 +155,20 @@ def upload_file():
 
     conteudo_arquivo = arquivo.stream.read().decode("utf-8")
     
-    try:
-        res_h = float(re.search(r'ResH=(\d+\.\d+)', conteudo_arquivo).group(1))
-        res_v = float(re.search(r'ResV=(\d+\.\d+)', conteudo_arquivo).group(1))
-        dim_h = int(re.search(r'DimH=(\d+)', conteudo_arquivo).group(1))
-        dim_v = int(re.search(r'DimV=(\d+)', conteudo_arquivo).group(1))
-    except (AttributeError, ValueError):
-        return jsonify({"error": "Não foi possível extrair dimensões ou resolução do arquivo."}), 400
+    # try:
+    #     res_h = float(re.search(r'ResH=(\d+\.\d+)', conteudo_arquivo).group(1))
+    #     res_v = float(re.search(r'ResV=(\d+\.\d+)', conteudo_arquivo).group(1))
+    #     dim_h = int(re.search(r'DimH=(\d+)', conteudo_arquivo).group(1))
+    #     dim_v = int(re.search(r'DimV=(\d+)', conteudo_arquivo).group(1))
+    # except (AttributeError, ValueError):
+    #     return jsonify({"error": "Não foi possível extrair dimensões ou resolução do arquivo."}), 400
 
-    area_h_in = dim_h / res_h
-    area_v_in = dim_v / res_v
-    area_total_m2 = (area_h_in * area_v_in) * (INCH_PARA_M ** 2)
+    # area_h_in = dim_h / res_h
+    # area_v_in = dim_v / res_v
+    # area_total_m2 = (area_h_in * area_v_in) * (INCH_PARA_M ** 2)
 
-    if area_total_m2 == 0:
-        return jsonify({"error": "Área de impressão é zero, cálculo impossível."}), 400
+    # if area_total_m2 == 0:
+    #     return jsonify({"error": "Área de impressão é zero, cálculo impossível."}), 400
     
     consumo_por_cor_lista = []
     

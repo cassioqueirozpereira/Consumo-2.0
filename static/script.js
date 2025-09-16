@@ -2,10 +2,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const calcularBtn = document.getElementById('calcularBtn');
     const porcentagemInput = document.getElementById('porcentagem');
     const dropArea = document.querySelector('.border-dashed');
-    const fileInput = document.getElementById('files');
+    const file = document.getElementById('files');
     const fileListContainer = document.getElementById('fileListContainer');
     const uploadFormMulti = document.getElementById('uploadFormMulti');
-
     const incrementBtn = document.getElementById('incrementBtn');
     const decrementBtn = document.getElementById('decrementBtn');
     
@@ -76,9 +75,9 @@ document.addEventListener('DOMContentLoaded', () => {
         adicionarArquivos(e.dataTransfer.files);
     });
 
-    fileInput.addEventListener('change', (e) => {
+    file.addEventListener('change', (e) => {
         adicionarArquivos(e.target.files);
-        fileInput.value = '';
+        file.value = '';
     });
 
     uploadFormMulti.addEventListener('submit', async (event) => {
