@@ -123,16 +123,16 @@ def upload_files():
         else:
                # Retorna um erro JSON informando que o formato do arquivo é desconhecido.
                return jsonify({"error": f"Formato de arquivo desconhecido para {arquivo.filename}"}), 400
-            
-        # Adiciona os nomes das cores na ordem em que foram encontradas.
-        # [c[1] for c in dados_arquivo] cria uma lista dos segundos elementos de cada tupla (o nome da cor).
-        cores_na_ordem.extend([c[0] for c in dados_arquivo])
 
         # --- Soma dos Dots por Arquivo ---
         
         # Loop para iterar sobre cada tupla de dados capturada pela expressão regular.
         # Desempacota a tupla em variáveis legíveis: cor_en, dots_l1, etc.
         for  cor_en, dots_l1, dots_l2, dots_l3 in dados_arquivo:
+            # Padroniza a string com a primeira letra maisúcula e o restante minuscula. Devido ao rip2 ter os nomes das cores com letras maiúculas.
+            cor_en = cor_en.capitalize()
+            # Adiciona a cor à lista de cores na ordem.
+            cores_na_ordem.append(cor_en)
             # Converte os valores de dots de string para inteiros.
             dots_l1 = int(dots_l1)
             dots_l2 = int(dots_l2)
