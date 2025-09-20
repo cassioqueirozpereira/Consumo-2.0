@@ -130,7 +130,15 @@ def upload_files():
         # Desempacota a tupla em variáveis legíveis: cor_en, dots_l1, etc.
         for  cor_en, dots_l1, dots_l2, dots_l3 in dados_arquivo:
             # Padroniza a string com a primeira letra maisúcula e o restante minuscula. Devido ao rip2 ter os nomes das cores com letras maiúculas.
-            cor_en = cor_en.capitalize()
+            if (cor_en == "AMARELHO")
+                cor_en = "Yellow"
+            elif (cor_en == "COBALT")
+                cor_en = "Blue"
+            elif (cor_en == "ESMERIL")
+                cor_en = "Reactive"
+            else:
+                cor_en = cor_en.capitalize()
+
             # Adiciona a cor à lista de cores na ordem.
             cores_na_ordem.append(cor_en)
             # Converte os valores de dots de string para inteiros.
