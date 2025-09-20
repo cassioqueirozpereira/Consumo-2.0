@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
         resultDiv.innerHTML = '<p class="text-gray-500">Calculando...</p>';
 
         try {
-            const response = await fetch('/upload-multi', {
+            const response = await fetch('/upload_files', {
                 method: 'POST',
                 body: formData
             });
