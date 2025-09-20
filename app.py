@@ -41,6 +41,7 @@ COR_MAP_PT_BR = {
 # Dicionário para mapear nomes de cores com erros de digitação para os nomes corretos.
 # A chave é o nome com erro (em maiúsculas), o valor é o nome correto e padronizado.
 COR_MAP_ERROS = {
+    "BEIGE": "Beige",
     "AMARELHO": "Yellow",
     "COBALT": "Blue",
     "ESMERIL": "Reactive"
