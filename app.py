@@ -38,6 +38,14 @@ COR_MAP_PT_BR = {
     "Reactive": "Reativo"
 }
 
+# Dicionário para mapear nomes de cores com erros de digitação para os nomes corretos.
+# A chave é o nome com erro (em maiúsculas), o valor é o nome correto e padronizado.
+COR_MAP_ERROS = {
+    "AMARELHO": "Yellow",
+    "COBALT": "Blue",
+    "ESMERIL": "Reactive"
+}
+
 # Dicionário que armazena o volume de tinta (em picolitros) para cada nível de "dots".
 GOTAS_PL = {
     1: 12,
@@ -129,15 +137,9 @@ def upload_files():
         # Loop para iterar sobre cada tupla de dados capturada pela expressão regular.
         # Desempacota a tupla em variáveis legíveis: cor_en, dots_l1, etc.
         for  cor_en, dots_l1, dots_l2, dots_l3 in dados_arquivo:
-            # Padroniza a string com a primeira letra maisúcula e o restante minuscula. Devido ao rip2 ter os nomes das cores com letras maiúculas.
-            if (cor_en == "AMARELHO"):
-                cor_en = "Yellow"
-            elif (cor_en == "COBALT"):
-                cor_en = "Blue"
-            elif (cor_en == "ESMERIL"):
-                cor_en = "Reactive"
-            else:
-                cor_en = cor_en.capitalize()
+            # Tenta encontrar o nome no dicionário de erros, caso contrário, usa capitalize().
+            # O capitalize(), transforma a String, deixando a primeira letra maiúscula e o restante minúscula.
+            cor_en = COR_MAP_ERROS.get(cor_en, cor_en.capitalize())
 
             # Adiciona a cor à lista de cores na ordem.
             cores_na_ordem.append(cor_en)
