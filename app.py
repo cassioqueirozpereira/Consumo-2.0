@@ -55,7 +55,7 @@ def home():
     return render_template('index.html')
 
 # Define a rota para o upload de múltiplos arquivos, que aceita requisições POST.
-@app.route('/upload_files', methods=['POST'])
+@app.route('/upload-multi', methods=['POST'])
 def upload_files():
     # --- Validação Inicial ---
 
