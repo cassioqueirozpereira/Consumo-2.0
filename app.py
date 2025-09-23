@@ -116,7 +116,7 @@ def upload_files():
 
         # Expressão regular para o segundo formato de arquivo (RIP 2).
         # Procura por "tif_", seguido do nome da cor e os três números de dots.
-        canais_rip2 = re.findall(r'tif_(\w+).*?=(\d+),(\d+),(\d+)', conteudo_arquivo)
+        canais_rip2 = re.findall(r'tif_(\w+)\s*=\s*(\d+),(\d+),(\d+)', conteudo_arquivo)
 
         # --- Lógica para Selecionar o Formato Correto ---
 
