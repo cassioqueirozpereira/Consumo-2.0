@@ -112,8 +112,7 @@ COR_MAP_PT_BR = { # Dicionário para traduzir os nomes das cores do Inglês para
     "Blue": "Azul",
     "Yellow": "Amarelo",
     "Luster": "Brilho",
-    "Reactive": "Reativo",
-    "ESMERIL": "Luster"
+    "Reactive": "Reativo"
 }
 
 COR_MAP_ERROS = { # Dicionário de correção para normalizar nomes de cores mal digitados ou alternativos nos arquivos de entrada.
@@ -126,7 +125,8 @@ COR_MAP_ERROS = { # Dicionário de correção para normalizar nomes de cores mal
     "BEJE": "Beige",
     "WHITE": "Luster",
     "SINKER": "Reactive",
-    "MATT": "Luster"
+    "MATT": "Luster",
+    "ESMERIL": "Luster"
 }
 
 # --- MAPA UNIFICADO DE LINHAS (Configuração Central) ---
