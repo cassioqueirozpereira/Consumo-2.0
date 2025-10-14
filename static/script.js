@@ -132,11 +132,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 const coresMap = {
                     'Ciano': '#00AEEF',
                     'Marrom': '#964B00',
-                    'Bege': '#C2B280',
+                    'Beige': '#C2B280',
                     'Preto': '#000000',
                     'Rosa': '#FF69B4',
                     'Azul': '#0047AB',
-                    'Amarelo': '#FFFF00',
+                    'Yellow': '#FFFF00',
                     'Brilho': '#B57EDC',
                     'Reativo': '#A9A9A9'
                 };
