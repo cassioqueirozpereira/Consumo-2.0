@@ -124,7 +124,8 @@ COR_MAP_ERROS = { # Dicionário de correção para normalizar nomes de cores mal
     "COBALTO": "Blue",
     "BEJE": "Beige",
     "WHITE": "Luster",
-    "SINKER": "Reactive"
+    "SINKER": "Reactive",
+    "MATT": "Luster"
 }
 
 # --- MAPA UNIFICADO DE LINHAS (Configuração Central) ---
