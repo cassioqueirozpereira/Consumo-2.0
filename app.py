@@ -119,7 +119,6 @@ COR_MAP_ERROS = { # Dicionário de correção para normalizar nomes de cores mal
     "BEGE": "Beige",
     "AMARELHO": "Yellow",
     "COBALT": "Blue",
-    "ESMERIL": "Reactive",
     "YELOW": "Yellow",
     "COBALTO": "Blue",
     "BEJE": "Beige",
