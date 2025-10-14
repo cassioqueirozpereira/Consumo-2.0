@@ -112,7 +112,7 @@ COR_MAP_PT_BR = { # Dicionário para traduzir os nomes das cores do Inglês para
     "Blue": "Azul",
     "Yellow": "Amarelo",
     "Luster": "Brilho",
-    "Reactive": "Reativo"
+    "Reactive": "Reativo",
     "ESMERIL": "Luster"
 }
 
